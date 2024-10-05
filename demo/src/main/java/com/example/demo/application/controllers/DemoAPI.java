@@ -2,6 +2,7 @@ package com.example.demo.application.controllers;
 
 import com.example.demo.application.resources.DemoReq;
 import com.example.demo.application.resources.DemoRes;
+import com.example.demo.domain.services.CrudService;
 import com.example.demo.domain.services.DemoService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class DemoAPI {
+    private final CrudService crudService;
     private final DemoService demoService;
 
     // --------------------------
@@ -41,6 +43,15 @@ public class DemoAPI {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new ResponseEntity<DemoRes>(demoRes, headers, HttpStatus.OK);
+    }
+
+    // --------------------
+    // -- For CRUD demo. --
+    // --------------------
+    @GetMapping("/crud")
+    public ResponseEntity<Void> crud() {
+        crudService.rdsCrud();
+        return new ResponseEntity<>(null, null, HttpStatus.OK);
     }
 
     // ------------------------
